@@ -1,5 +1,4 @@
 spotify:playlist:0yf6lcDHKrYIiSBWlGdHxY
 spotify:playlist:5ts96D5tgtlxwXSWKwGvsm
 spotify:playlist:3PXFZxy8QdBmvFHCYyErw3
-spotify:playlist:1KJW3gIz3EGTviDLDwb7xa
-spotify:playlist:0jFqFVRXUsOL6xjJOeaLIM
+spotify:playlist:37i9dQZF1DX5kjCvsC5isB
