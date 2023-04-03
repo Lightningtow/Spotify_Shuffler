@@ -1,2 +1,0 @@
-input validation for choosing playlist
-input playlists
