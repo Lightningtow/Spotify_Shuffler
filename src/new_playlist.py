@@ -5,11 +5,12 @@ import base64
 import os
 import spotipy
 from spotipy import SpotifyOAuth
-from data import SCOPES, AUTH
+from data import SCOPES
+from utils import auth
 
 
 def new_playlist(source_playlist):
-    sp = AUTH
+    sp = auth()
 
     print("getting source details")
     # print(source_playlist)

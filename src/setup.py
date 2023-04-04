@@ -2,18 +2,17 @@ import os
 import sys
 
 from cx_Freeze import setup, Executable
+from glob import glob
 
+files = glob('src/*')  # No files in ../sql/ root
 
-
-# Dependencies are automatically detected, but it might need
-# fine tuning.
-includefiles = ['playlists.txt']
-build_options = {'packages': [], 'excludes': [], 'include_files': includefiles}
-
+build_options = {
+    'include_files': list(zip(files, files)),
+    'excludes': ["tkinter", "unittest"]
+}
 
 executables = [
     Executable('main.py', base='console', target_name='spotify_shuffler')
-    # Executable('main.py', base=None, target_name='spotify_shuffler')
 
 ]
 setup(name='spotify_shuffler',
@@ -21,6 +20,13 @@ setup(name='spotify_shuffler',
       description='Spotify Shuffler by Lightningtow',
       options={'build_exe': build_options},
       executables=executables)
+
+# Dependencies are automatically detected, but it might need
+# fine tuning.
+
+# build_options = {'packages': [],
+#                  'excludes': ["tkinter", "unittest"],
+#                  'include_files': includefiles}
 
 #    PycharmProjects\spotify_shuffler\venv\Scripts\activate.bat
 #    cd PycharmProjects\spotify_shuffler\src

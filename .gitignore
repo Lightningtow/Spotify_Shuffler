@@ -1,10 +1,11 @@
-
+backups
+.creds
 .cache
 .env
 playlists_backup.txt
 build
 venv
-backups.txt
+backups/backups.txt
 todo.txt
 __pycache__
 *.pyc

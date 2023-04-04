@@ -9,26 +9,16 @@ from data import SCOPES, FILEPATH, AUTH
 
 
 def add_playlist():
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.getenv('SPOTIPY_CLIENT_ID'),
-                                                   client_secret=os.getenv('SPOTIPY_CLIENT_SECRET'),
-                                                   redirect_uri=os.getenv('SPOTIPY_REDIRECT_URI'),
-                                                   scope=SCOPES))
-
+    sp = AUTH
     print("enter URI of playlist to add")
     print('URIs for playlists are formatted like this: "spotify:playlist:37i9dQZF1DX5kjCvsC5isB"')
-    print(
-        "see https://community.spotify.com/t5/Spotify-for-Developers/Get-Playlist-URI-with-updated-Desktop-Look/m-p/5186546#M2364")
+    print("see https://community.spotify.com/t5/Spotify-for-Developers/Get-Playlist-URI-with-updated-Desktop-Look/m-p/5186546#M2364")
     uri = [input("\n> ").replace('\n', '')]  # newlines in a copy-pasted entry cause bugs
-    # namedict = []
-    # # namedict.append(uri)
-    # # print(uri)
-    # fulldata = ""
 
-    # for item in uri:
     try:
         fulldata = sp.playlist(uri[0], fields='name, uri')  # gotta refer to the string element, not the list itself. `Thus uri[0]`
 
-        with open('playlists.txt', 'a') as file:
+        with open('../backups/playlists.txt', 'a') as file:
             file.write("\n" + fulldata['uri'])
             print('Adding playlist "' + fulldata['name'] + '" to playlists.txt')
             file.close()
