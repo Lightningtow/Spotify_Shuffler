@@ -5,11 +5,14 @@ import base64
 import os
 import spotipy
 from spotipy import SpotifyOAuth
-from data import SCOPES
 from utils import auth
 
 
-def new_playlist(source_playlist):
+def copy_playlist_info(source_playlist):
+    # create a new playlist based on the old one
+    # carries over name, description, cover art if custom
+    # if not custom, leaves cover art so it can be properly auto-generated
+    # does not carry over tracks/playlists
     sp = auth()
 
     print("getting source details")

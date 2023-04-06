@@ -13,20 +13,19 @@ import sys
 # from timeout import infin
 import threading
 from time import sleep
-import socket
-
+from purge import purge_song
 # from utils import set_credentials
 
 
 def main():
-    from utils import auth
 
     def is_connected():
+        import socket
         try:
-            # connect to the host -- tells us if the host is actually
-            # reachable
+            # connect to the host -- tells us if the host is actually reachable
             print("testing connection to Spotify")
             sock = socket.create_connection(("www.spotify.com", 80))
+
             if sock is not None:
                 # print('Closing socket')
                 sock.close()
@@ -35,6 +34,11 @@ def main():
             pass
         return False
 
+    from utils import auth
+    logger = logging.getLogger('main')
+    logging.basicConfig(level='FATAL')  # else it'll display errors for invalid entries
+
+
 
 
     if is_connected():
@@ -42,17 +46,8 @@ def main():
     else:
         print("can't connect to Spotify")
         print("please try again with an internet connection")
-        print("press Return to exit")
+        input("press Return to exit")
         sys.exit(-1)
-
-
-    # sp = auth()
-
-    # infin()
-
-    # input("continue")
-    # logger = logging.getLogger('chooser')
-    logging.basicConfig(level='FATAL')  # else it'll display errors for invalid entries
 
     # NOTE! Pasting in something with trailing newlines will bug out the ide,
     #   however on cmd it'll just remove the newlines for you and work fine.
@@ -60,14 +55,7 @@ def main():
     # input("here")
 
     from utils import auth  # , get_name_from_playlist_uri
-    # from data import AUTH  # have to put this here, in case the user needs to provide client creds
-    # print("testing user app credentials")
-    # while True:
-    #     sp = auth()
-    #     if sp != "INVALID":
-    #         break
-    #     print("creating new credentials cache")
-    #     set_credentials()
+
 
     print("authenticating...")  # can't put this in auth(), or it'd be printed all over the place
     # print("see README if you get stuck here")
@@ -99,14 +87,18 @@ def main():
     while True:
         query = "\n<1> shuffle in place\n" \
                 "<2> create new shuffled playlist\n" \
+                "<3> purge current song\n" \
                 "\n<0> exit program"
-        choice = ask_int(query, 0, 2)
+        choice = ask_int(query, 0, 3)
 
         if choice == 1:
             shuffle_in_place()
 
         elif choice == 2:
             shuffle_new()
+
+        elif choice == 3:
+            purge_song()
 
         elif choice == 0:
             sys.exit(0)
