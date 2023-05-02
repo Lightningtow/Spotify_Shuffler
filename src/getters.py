@@ -13,6 +13,68 @@ import os
 # from data import SCOPES, PlaylistGetTypes
 from utils import auth
 
+def get_diff(uri_1, name1, uri_2, name2, return_type):
+    # take list1, and for each song, if it's in list2, remove it from the list.
+    # so you end up with a list of all songs from list1 that aren't in list2
+    # list1 is roadkill and list2 is omniscience, for example
+
+    print("comparing", name1, "with", name2)
+    # returns fulldata cause fuck it, better to have it and parse it later, than need it and not have it
+
+    print("getting items from", name1)
+    list1 = get_tracks(playlist_id=uri_1, return_type=PlaylistGetTypes.FULLDATA, return_local=False)
+    # pprint(list1[0]['track']['album']['name'])
+    # print(list1[0]['track']['name']  + " - " + list1[0]['track']['artists'][0]['name'])
+
+    # exit(42)
+    print("getting items from", name2)
+    list2 = get_tracks(playlist_id=uri_2, return_type=PlaylistGetTypes.FULLDATA, return_local=False)
+
+    newlist = []
+    # print('\n', len(list1))
+    # print('\n', len(list2))
+
+    inboth = False
+    for item in list1:
+        inboth = False
+        for item2 in list2:
+            # print
+            if item['track']['uri'] == item2['track']['uri']:
+                # print("removing", item['track']['artists'][0]['name']   + " - " + item['track']['name']  + " - " + item['track']['album']['name'])
+        # if item['track']['uri'] in list2:
+                inboth = True
+                break;
+                # try:
+                #     list1.remove(item)
+                # except ValueError:
+                #     pass
+        if not inboth:
+            newlist.append(item)
+                # break  # continue to next item in list1
+        # else:
+
+    # list1.sort()
+    fancylist = []
+    datalist = []
+    for item in newlist:  # using list1 doesn't work
+        if return_type == PlaylistGetTypes.FULLDATA:
+            datalist.append(item)
+        elif return_type == PlaylistGetTypes.IDS_ONLY:
+            datalist.append(item['track']['uri'])
+        # print(item['track']['artists'][0]['name']   + " - " + item['track']['name']  + " - " + item['track']['album']['name'])
+        entry = item['track']['artists'][0]['name']   + " - " + item['track']['name']  + " - " + item['track']['album']['name']
+        fancylist.append(entry)
+        # print(item['name'])
+
+    fancylist.sort()
+    print("found", len(fancylist), "songs in", name1, "that weren't in", name2)
+    if fancylist != []:
+        print(" ")
+        pprint(fancylist)
+        print(" ")
+    # print('\n', len(fancylist))
+
+    return datalist
 
 def get_name_from_playlist_uri(uri):
     sp = auth()
@@ -62,7 +124,7 @@ def get_all_playlists_from_user(get_only_editable, return_count):
             # else:
 
             if item['name'] in newdict:  # if duplicate
-                print("found dupe: " + item['name'])   #  THIS DOESNT WORK PROPERLY
+                # print("found dupe: " + item['name'])   #  todo THIS DOESNT WORK PROPERLY
                                                         #  'fierce' MACTHES WITH 'Fierce Femmes'
                 dupes += 1  # don't bother with renaming them
 
@@ -106,7 +168,7 @@ class PlaylistGetTypes(Enum):
     IDS_ONLY = 2
 # def filter_fulL_data(keep_local):
 
-def get_tracks(playlist_id, return_type, keep_local):
+def get_tracks(playlist_id, return_type, return_local):
 
     # pass a playlist id
     # return_type is from enum above. Whether to return only a list of ids, or a giant list of all data
@@ -115,12 +177,12 @@ def get_tracks(playlist_id, return_type, keep_local):
     # THIS WILL NEVER RETURN A LOCAL TRACK ID
     # URI objects are like `spotify:track:1wtTpKbhYqojzFaLEJMHbZ` or `spotify:episode:1oq6xOHkCYXMlplvcN4nnn`
     # playlist ID is assumed to be valid
-    # IF FULLDATA, THIS RETURNS PLAYLISTS AND LOCAL TRACKS
 
     sp = auth()
 
     alltracks = []
-    print("getting items 1 - 100")
+    print("\tgetting items 1 - 100")
+
     result = sp.playlist_items(playlist_id, additional_types=['track'])
     # print(result)
     alltracks.extend(result['items'])
@@ -128,16 +190,20 @@ def get_tracks(playlist_id, return_type, keep_local):
     i = 0
     while result['next']:
         i += 1
-        print("getting items " + str((i * 100) + 1) + " - " + str((i + 1) * 100))
+        print("\tgetting items " + str((i * 100) + 1) + " - " + str((i + 1) * 100))  # todo this is the 'getting items' line
         result = sp.next(result)
         alltracks.extend(result['items'])
 
     length = len(alltracks)
-    print("found " + str(length) + " items")
+    print("\tfound " + str(length) + " items")
 
     # pprint(alltracks)
 
     if return_type == PlaylistGetTypes.FULLDATA:  # THE BELOW PORTION SCRUBS OUT NON-ID DATA
+        if not return_local:
+            for item in alltracks:  # scrub alltracks and convert to list of just ids
+                if item['is_local']:
+                    alltracks.remove(item)
         return alltracks
     local = 0
 
@@ -146,9 +212,9 @@ def get_tracks(playlist_id, return_type, keep_local):
         # print(item['track']['name'])
 
         if item['is_local']:
-            if not keep_local:
+            if not return_local:
                 print("    removing local track")  # lol doesn't actually remove from alltracks, just doesn't add to ids
-            elif keep_local:
+            elif return_local:
                 local += 1
                 # ids.append(item['track']['uri'])
             else:
@@ -160,10 +226,10 @@ def get_tracks(playlist_id, return_type, keep_local):
             # ids.append(item['track']['id'])
 
             ids.append(item['track']['uri'])
-
+    # print(playlist_id)
 
     if return_type == PlaylistGetTypes.IDS_ONLY:
-        if keep_local:
+        if return_local:
             return [ids, local]
         else:
             return ids

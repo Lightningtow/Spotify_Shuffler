@@ -26,7 +26,7 @@ def copy_playlist_info(source_playlist):
     desc = details[0]['description']  # if description is blank, doesn't matter for `sp.user_playlist_create`
 
 
-    desc = desc.replace('&#x27;', '\'').replace('&quot;', '"').replace('&#x2F;', '/')  # un-butcher quotes
+    desc = desc.replace('&#x27;', '\'').replace('&quot;', '"').replace('&#x2F;', '/')  # un-butcher special chars
     name = name + " (shuffled)"  # append 'shuffled' to name of new playlist
 
     user_id = sp.me()['id']

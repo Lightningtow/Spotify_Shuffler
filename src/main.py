@@ -13,9 +13,13 @@ import sys
 # from timeout import infin
 import threading
 from time import sleep
-from purge import purge_song
-# from utils import set_credentials
+from purge import purge_song, use_purgelist
+from src.synergize import synergize, current_func
 
+# def main():
+# print("uh")
+
+# MyApp.run(self=MyApp)
 
 def main():
 
@@ -39,7 +43,7 @@ def main():
     logging.basicConfig(level='FATAL')  # else it'll display errors for invalid entries
 
 
-
+    # MyApp().run()
 
     if is_connected():
         print("successfully pinged Spotify")
@@ -67,6 +71,8 @@ def main():
     from utils import ask_int
     user = sp.me()
 
+
+
 # exit(42)
     # # try:
     # try:
@@ -85,20 +91,35 @@ def main():
     print("successfully logged in as " + user['display_name'])
 
     while True:
-        query = "\n<1> shuffle in place\n" \
-                "<2> create new shuffled playlist\n" \
-                "<3> purge current song\n" \
-                "\n<0> exit program"
-        choice = ask_int(query, 0, 3)
+        query = "\n" \
+                "<1> synergize \n" \
+                "<2> purge \n" \
+                "<3> shuffle roadkill and omniscience \n" \
+                "<4> shuffle in place\n" \
+                "<5> create new shuffled playlist\n" \
+                "<6> current test func \n" \
+ \
+        "\n<0> exit program"
+        # "<5> purge current song\n" \
 
+        choice = ask_int(query, 0, 6)
         if choice == 1:
-            shuffle_in_place()
+            synergize()
 
         elif choice == 2:
-            shuffle_new()
+            use_purgelist()
 
         elif choice == 3:
-            purge_song()
+            print("yeah the shuffle func has the query built into it, need to fix that so i can just pass an id")
+
+        elif choice == 4:
+            shuffle_in_place()
+
+        elif choice == 5:
+            shuffle_new()
+
+        elif choice == 6:
+            current_func()
 
         elif choice == 0:
             sys.exit(0)
@@ -108,5 +129,5 @@ def main():
             sys.exit(-1)
 
 if __name__ == '__main__':
-
+    # MyApp().run()
     main()

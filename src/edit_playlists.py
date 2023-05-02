@@ -4,7 +4,7 @@ from pprint import pprint
 from utils import auth
 
 
-def wipe_tracks_by_id(playlist_id, tracks_to_wipe):
+def wipe_tracks_by_id(tracks_to_wipe, playlist_id):
     # ids are the tracks to wipe
     sp = auth()
 
@@ -15,6 +15,7 @@ def wipe_tracks_by_id(playlist_id, tracks_to_wipe):
 
     sp = auth()
 
+    # pprint(ids)
 
     newlist = []
 
@@ -36,7 +37,7 @@ def wipe_tracks_by_id(playlist_id, tracks_to_wipe):
     newlist = ids[-leftovers:]  # make list of leftover songs
     sp.playlist_remove_all_occurrences_of_items(playlist_id, newlist)
 
-    print("done removing")
+    # print("done removing")  # todo should display this when >100, or just never?
     # pprint(sp.playlist_items(playlist_id))
 
 

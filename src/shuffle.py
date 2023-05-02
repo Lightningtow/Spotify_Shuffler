@@ -36,7 +36,7 @@ def shuffle_in_place():
     # print("shuffle " + source_playlist)
 
 
-    results = get_tracks(playlist_id=playlist, return_type=PlaylistGetTypes.IDS_ONLY, keep_local=True)
+    results = get_tracks(playlist_id=playlist, return_type=PlaylistGetTypes.IDS_ONLY, return_local=True)
     # THIS WILL NOT RETURN THE IDS OF ANY LOCAL TRACKS
 
     ids = results[0]
@@ -49,50 +49,79 @@ def shuffle_in_place():
     size = len(ids)
     from random import randrange
     # sys.exit(2)
-    if local > 0:  # if local tracks present
+    keeping = "lol"
+    if local > 0:
         print("local tracks found")
-        print("clearing all non-local tracks")
-        # pprint(ids)
-        # input("wipe?")
-        wipe_tracks_by_id(playlist_id=playlist, tracks_to_wipe=ids)
+        while True:  # todo fix read logic here
+            # print("keep local tracks? y/n\n"
+            #       "if you do, you may have to re-download part of your playlist\n"
+            #       "see README for details")
+            # yn = input("> ")
+            yn = "y"  # todo remove bypass when ready
+
+            # print(">" + yn + "<")
+            if yn == "y" or yn == "Y":
+                keeping = True
+                break
+            elif yn == "n" or yn == "N":
+                keeping = False
+                break
+            else:
+                print("invalid input")
+        # if local > 0:  # if local tracks present
+
+        if keeping:
+            print("clearing all non-local tracks")
+            # pprint(ids)
+            # input("wipe?")
+            wipe_tracks_by_id(playlist_id=playlist, tracks_to_wipe=ids)
+
+            # input("add shuffled?")
+            print("adding shuffled tracks")
+            add_tracks(ids, playlist)  # add tracks
+
+            print("shuffling local tracks")
+            for i in range(local):
+                insert = randrange(size - 1)  # takes the first local and moves it to a random spot
+                # print(insert)
+
+                sp.playlist_reorder_items(playlist, range_start=0, insert_before=insert)
+
+            name = get_name_from_playlist_uri(playlist)
+            print('\n"' + name + '" shuffled successfully\n')
+            return
+        # elif not keeping:
 
 
-        # input("add shuffled?")
-        print("adding shuffled tracks")
-        add_tracks(ids, playlist)  # add tracks
+    # this runs if no local tracks, or if local but not keeping
+    print("clearing playlist")
+    sp.playlist_replace_items(playlist, [])  # test that you own playlist. Also wipes it
+
+    print("adding shuffled tracks")
+    add_tracks(ids, playlist)  # add tracks
+    name = get_name_from_playlist_uri(playlist)
+    print('\n"' + name + '" shuffled successfully\n')
+
+        # else:
+        #     print("error, invalid value for 'keeping' in shuffle.py")
+        #     exit(-1)
 
 
-        print("shuffling local tracks")
-        for i in range(local):
-            insert = randrange(size-1)  # takes the first local and moves it to a random spot
-            # print(insert)
-
-            sp.playlist_reorder_items(playlist, range_start=0, insert_before=insert)
 
 
-    else:
+    # else:
 
-
-
-        print("clearing playlist")
-        sp.playlist_replace_items(playlist, [])  # test that you own playlist. Also wipes it
-
-        print("adding shuffled tracks")
-        add_tracks(ids, playlist)  # add tracks
-        name = get_name_from_playlist_uri(playlist)
-        print('\n"' + name + '" shuffled successfully\n')
-
-    # try:
-    #     print("clearing destination playlist")
-    #     sp.playlist_replace_items(destination_playlist, [])  # test that you own playlist. Also wipes it
-    #
-    #     add_tracks(ids, destination_playlist)  # add tracks
-    #     name = utils.get_name_from_playlist_uri(destination_playlist)
-    #     print('\n"' + name + '" shuffled successfully\n')
-    #
-    # except spotipy.exceptions.SpotifyException:
-    #     print("\nerror: you do not own this playlist and cannot shuffle it in place\n"
-    #           "however, you can create a new shuffled playlist with it, if you want\n")
+        # try:
+        #     print("clearing destination playlist")
+        #     sp.playlist_replace_items(destination_playlist, [])  # test that you own playlist. Also wipes it
+        #
+        #     add_tracks(ids, destination_playlist)  # add tracks
+        #     name = utils.get_name_from_playlist_uri(destination_playlist)
+        #     print('\n"' + name + '" shuffled successfully\n')
+        #
+        # except spotipy.exceptions.SpotifyException:
+        #     print("\nerror: you do not own this playlist and cannot shuffle it in place\n"
+        #           "however, you can create a new shuffled playlist with it, if you want\n")
 
 def shuffle_new():
     # sp = utils.auth()

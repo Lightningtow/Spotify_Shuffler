@@ -19,7 +19,30 @@ SCOPES = "playlist-modify-private " \
          "playlist-modify-public " \
          "ugc-image-upload " \
          "playlist-read-private " \
-         "playlist-read-collaborative "
+         "playlist-read-collaborative " \
+            "user-library-read " \
+            "streaming " \
+            "app-remote-control " \
+    "user-read-playback-state " \
+    "user-modify-playback-state " \
+    "user-read-currently-playing " \
+"user-read-playback-position " \
+"user-top-read " \
+"user-read-recently-played " \
+
+
+
+
+
+PURGELIST =     "spotify:playlist:3gWBGiJmlvbVJaS0CSY2Vg"
+AFTERPURGE =    "spotify:playlist:0jjjbxOwDsTdf1Mq8hQUuS"
+OMNI =          "spotify:playlist:3PXFZxy8QdBmvFHCYyErw3"
+OMNI_REPO =     "spotify:playlist:5nWJjMM7DMOZCWYAJEgNtl"
+ROADKILL =      "spotify:playlist:6o3HI8fSJrWEeZmhkCqSeZ"
+ROADKILL_REPO = "spotify:playlist:5ts96D5tgtlxwXSWKwGvsm"
+SINGALONG =     "spotify:playlist:3WcOpgXK1N9nf27qkimhPF"
+PURGELIST_ROAD =  "spotify:playlist:1MYRwRHs71GWJNk1HunSAz"
+AFTERPURGE_ROAD = "spotify:playlist:6o1Tny80Jow5ulZjesvUuy"
 
 # "user-library-read " \
 # "streaming " \
@@ -41,7 +64,10 @@ def auth():
     dotenv.load_dotenv()
 
     try:
-        sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=SCOPES, open_browser=False))
+        sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=SCOPES, open_browser=True))
+
+    # sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=SCOPES, open_browser=False))
+
         # if there's a valid .cache, just works regardless of .env validity
         # if nothing provided, automatically tries to pull from env
         # if env invalid, fails
