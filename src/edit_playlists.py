@@ -26,14 +26,14 @@ def wipe_tracks_by_id(tracks_to_wipe, playlist_id):
         for i in range(hundreds):
             newlist = ids[i * 100:(i + 1) * 100]  # make list of tracks to remove this cycle
 
-            print("removing items " + str((i * 100) + 1) + " - " + str((i + 1) * 100))
+            print("\tremoving items " + str((i * 100) + 1) + " - " + str((i + 1) * 100))
 
             sp.playlist_remove_all_occurrences_of_items(playlist_id, newlist)
 
             # print("successfully added tracks " + str((i * 100)+1) + " - " + str((i + 1)*100))
 
 
-    print("removing items " + str((hundreds * 100) + 1) + " - " + str((hundreds * 100) + leftovers))
+    print("\tremoving items " + str((hundreds * 100) + 1) + " - " + str((hundreds * 100) + leftovers))
     newlist = ids[-leftovers:]  # make list of leftover songs
     sp.playlist_remove_all_occurrences_of_items(playlist_id, newlist)
 
@@ -64,13 +64,13 @@ def add_tracks(ids, destination):
         for i in range(hundreds):
             newlist = ids[i * 100:(i + 1) * 100]  # make list of tracks to add this cycle
 
-            print("adding items " + str((i * 100) + 1) + " - " + str((i + 1) * 100))
+            print("\tadding items " + str((i * 100) + 1) + " - " + str((i + 1) * 100))
 
             sp.playlist_add_items(destination, newlist, position=None)
 
             # print("successfully added tracks " + str((i * 100)+1) + " - " + str((i + 1)*100))
 
 
-    print("adding items " + str((hundreds * 100) + 1) + " - " + str((hundreds * 100) + leftovers))
+    print("\tadding items " + str((hundreds * 100) + 1) + " - " + str((hundreds * 100) + leftovers))
     newlist = ids[-leftovers:]  # make list of leftover songs
     sp.playlist_add_items(destination, newlist, position=None)

@@ -14,7 +14,11 @@ import sys
 import threading
 from time import sleep
 from purge import purge_song, use_purgelist
-from src.synergize import synergize, current_func
+from src import utils
+from src.choose_playlist import choose_playlist
+from src.getters import get_name_from_playlist_uri
+from src.synergize import synergize, current_func, remove_dupes
+
 
 # def main():
 # print("uh")
@@ -94,7 +98,7 @@ def main():
         query = "\n" \
                 "<1> synergize \n" \
                 "<2> purge \n" \
-                "<3> shuffle roadkill and omniscience \n" \
+                "<3> shuffle roadkill and omniscience \n\n" \
                 "<4> shuffle in place\n" \
                 "<5> create new shuffled playlist\n" \
                 "<6> current test func \n" \
@@ -110,16 +114,31 @@ def main():
             use_purgelist()
 
         elif choice == 3:
-            print("yeah the shuffle func has the query built into it, need to fix that so i can just pass an id")
+            print("shuffling roadkill")
+            shuffle_in_place(utils.ROADKILL)
+
+            print("\nshuffling omniscience")
+            shuffle_in_place(utils.OMNI)
 
         elif choice == 4:
-            shuffle_in_place()
+            playlist = choose_playlist("select playlist to shuffle:", only_editable=True)  # prompt user for source playlist
+            if playlist == "CANCELLED":
+                print("\ncancelled selection")
+                continue
+            else:
+                shuffle_in_place(playlist)
 
         elif choice == 5:
-            shuffle_new()
+            playlist = choose_playlist("select playlist to copy:", only_editable=True)  # prompt user for source playlist
+            if playlist == "CANCELLED":
+                print("\ncancelled selection")
+                continue
+            else:
+                shuffle_new(playlist)
 
         elif choice == 6:
-            current_func()
+            remove_dupes(utils.TESTLIST)
+            # current_func()
 
         elif choice == 0:
             sys.exit(0)

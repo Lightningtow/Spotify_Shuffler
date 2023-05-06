@@ -124,10 +124,11 @@ def get_all_playlists_from_user(get_only_editable, return_count):
             # else:
 
             if item['name'] in newdict:  # if duplicate
-                # print("found dupe: " + item['name'])   #  todo THIS DOESNT WORK PROPERLY
+                print("found dupe: " + item['name'])   #  todo THIS DOESNT WORK PROPERLY
                                                         #  'fierce' MACTHES WITH 'Fierce Femmes'
                 dupes += 1  # don't bother with renaming them
 
+                item['name'] = item['name'] + " [" + str(dupes) + "]"
 
             newdict[item['name']] = item['uri']
             total += 1
@@ -172,12 +173,15 @@ def get_tracks(playlist_id, return_type, return_local):
 
     # pass a playlist id
     # return_type is from enum above. Whether to return only a list of ids, or a giant list of all data
-    # if keep_local is false, returns a list of URI objects
-    # if keep_local is true, returns a 2-elem list of: [URI objects <list>, amount of local tracks <int>]
+    # if return_local is false, returns a list of URI objects
+    # if return_local is true, returns a 2-elem list of: [URI objects <list>, amount of local tracks <int>]
     # THIS WILL NEVER RETURN A LOCAL TRACK ID
     # URI objects are like `spotify:track:1wtTpKbhYqojzFaLEJMHbZ` or `spotify:episode:1oq6xOHkCYXMlplvcN4nnn`
     # playlist ID is assumed to be valid
 
+    # if return_type == IDS_ONLY:
+    # todo-- returns a 2-elem list of: [URI objects <list>, amount of local tracks <int>]
+    # ^ this is intentional, just highlighted
     sp = auth()
 
     alltracks = []
@@ -190,7 +194,7 @@ def get_tracks(playlist_id, return_type, return_local):
     i = 0
     while result['next']:
         i += 1
-        print("\tgetting items " + str((i * 100) + 1) + " - " + str((i + 1) * 100))  # todo this is the 'getting items' line
+        print("\tgetting items " + str((i * 100) + 1) + " - " + str((i + 1) * 100))  # todo-- this is the 'getting items' line
         result = sp.next(result)
         alltracks.extend(result['items'])
 
@@ -200,25 +204,28 @@ def get_tracks(playlist_id, return_type, return_local):
     # pprint(alltracks)
 
     if return_type == PlaylistGetTypes.FULLDATA:  # THE BELOW PORTION SCRUBS OUT NON-ID DATA
-        if not return_local:
+        if not return_local:                # todo uhh does it tho
             for item in alltracks:  # scrub alltracks and convert to list of just ids
                 if item['is_local']:
                     alltracks.remove(item)
+                    # removed_tracks += 1
         return alltracks
-    local = 0
+    # todo-- everything beyond this is IDS ONLY
+    # ^ intentional
 
+    local_tracks = 0  # for both keeping and removing locals
     ids = []
     for item in alltracks:  # scrub alltracks and convert to list of just ids
         # print(item['track']['name'])
 
-        if item['is_local']:
-            if not return_local:
-                print("    removing local track")  # lol doesn't actually remove from alltracks, just doesn't add to ids
-            elif return_local:
-                local += 1
-                # ids.append(item['track']['uri'])
-            else:
-                print("error, invalid value passed for keep_local in get_tracks(), please report this")
+        if item['is_local']:  # if its a local track
+            local_tracks += 1
+            print("    removing local track")  # lol doesn't actually remove from alltracks, just doesn't add to ids
+            # elif return_local:
+            #     pass
+            #     ids.append(item['track']['uri'])
+            # else:
+            #     print("error: invalid value passed for keep_local in get_tracks(), please report this")
         # elif item['track']['type'] == 'episode':
         #     print("    removing podcast")
 
@@ -230,9 +237,14 @@ def get_tracks(playlist_id, return_type, return_local):
 
     if return_type == PlaylistGetTypes.IDS_ONLY:
         if return_local:
-            return [ids, local]
-        else:
-            return ids
+            # tup : tuple[int | list, ...]= (removed_locals, ids)
+            # ids.append(ids[0])
+            # ids[0] = removed_locals
+            return [ids, local_tracks]
+        else: # if not adding local tracks
+            # if local_tracks > 0:
+            #     print(local_tracks, "local tracks removed. See README for details")
+            return [ids, local_tracks]
     else:
         print("error, please report. Reason: invalid return_type enum arg passed to get_tracks()")
         exit(-1)

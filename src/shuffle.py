@@ -20,7 +20,15 @@ import spotipy
 from edit_playlists import wipe_tracks_by_id
 
 
-def shuffle_in_place():
+def shuffle_in_place(uid_to_shuffle = "DEFAULT"):
+    if uid_to_shuffle == "DEFAULT":
+        print("error: no argument passed to shuffle_in_place")
+        exit(-1)
+    try:
+        get_name_from_playlist_uri(uid_to_shuffle)
+    except spotipy.exceptions.SpotifyException:
+        print("error: invalid uid passed to shuffle_in_place")
+        exit(-1)
 
     logger = logging.getLogger("shuffle()")
     logging.basicConfig(level="FATAL")  # else it'll display errors for invalid entries
@@ -28,20 +36,21 @@ def shuffle_in_place():
     sp = utils.auth()
 
 
-    playlist = choose_playlist("select playlist to shuffle:", only_editable=True)  # prompt user for source playlist
-    if playlist == "CANCELLED":
-        return  # cancel this function and go up a level
+    playlist = uid_to_shuffle
+    # playlist = choose_playlist("select playlist to shuffle:", only_editable=True)  # prompt user for source playlist
+    # if playlist == "CANCELLED":
+    #     return  # cancel this function and go up a level
 
 
     # print("shuffle " + source_playlist)
 
 
-    results = get_tracks(playlist_id=playlist, return_type=PlaylistGetTypes.IDS_ONLY, return_local=True)
+    results = get_tracks(playlist_id=playlist, return_type=PlaylistGetTypes.IDS_ONLY, return_local=False)
     # THIS WILL NOT RETURN THE IDS OF ANY LOCAL TRACKS
 
     ids = results[0]
     local = results[1]
-    # print(name)
+    # pprint(results)
     print("shuffling items")
     random.shuffle(ids)
     # https://stackoverflow.com/questions/3062741/maximal-length-of-list-to-shuffle-with-python-random-shuffle
@@ -123,20 +132,44 @@ def shuffle_in_place():
         #     print("\nerror: you do not own this playlist and cannot shuffle it in place\n"
         #           "however, you can create a new shuffled playlist with it, if you want\n")
 
-def shuffle_new():
-    # sp = utils.auth()
+def shuffle_new(uid_to_shuffle = "DEFAULT"):
+    if uid_to_shuffle == "DEFAULT":
+        print("error: no argument passed to shuffle_new")
+        exit(-1)
+    try:
+        get_name_from_playlist_uri(uid_to_shuffle)
+    except spotipy.exceptions.SpotifyException:
+        print("error: invalid uid passed to shuffle_new")
+        exit(-1)
 
-    source_playlist = choose_playlist("select playlist to copy:", only_editable=False)  # prompt user for source playlist
-    if source_playlist == "PLAYLISTS.TXT_IS_EMPTY" or source_playlist == "CANCELLED":
-        return
+    # sp = utils.auth()
+    # print(uid_to_shuffle)
+
+    source_playlist = uid_to_shuffle
+
+    # source_playlist = choose_playlist("select playlist to copy:", only_editable=False)  # prompt user for source playlist
+    # if source_playlist == "PLAYLISTS.TXT_IS_EMPTY" or source_playlist == "CANCELLED":
+    #     return
 
 
     destination_playlist = copy_playlist_info(source_playlist)  # create destination playlist
 
 
-    ids = get_tracks(playlist_id=source_playlist, return_type=PlaylistGetTypes.IDS_ONLY, keep_local=False)
+    results = get_tracks(playlist_id=source_playlist, return_type=PlaylistGetTypes.IDS_ONLY, return_local=False)
+    ids = results[0]
     # pprint(ids)
     # sys.exit(5)
+    # print("result", type(result))
+    #
+    # print("results:")
+    # pprint(result)
+    # removed_tracks: int = result[0]
+    #
+    # ids: list = result
+    # del ids[0]
+    # pprint(ids)
+
+    # print(removed_tracks)
     print("shuffling items")
     random.shuffle(ids)
     # https://stackoverflow.com/questions/3062741/maximal-length-of-list-to-shuffle-with-python-random-shuffle

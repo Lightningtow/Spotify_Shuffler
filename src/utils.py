@@ -34,16 +34,18 @@ SCOPES = "playlist-modify-private " \
 
 
 
-PURGELIST =     "spotify:playlist:3gWBGiJmlvbVJaS0CSY2Vg"
-AFTERPURGE =    "spotify:playlist:0jjjbxOwDsTdf1Mq8hQUuS"
-OMNI =          "spotify:playlist:3PXFZxy8QdBmvFHCYyErw3"
-OMNI_REPO =     "spotify:playlist:5nWJjMM7DMOZCWYAJEgNtl"
-ROADKILL =      "spotify:playlist:6o3HI8fSJrWEeZmhkCqSeZ"
-ROADKILL_REPO = "spotify:playlist:5ts96D5tgtlxwXSWKwGvsm"
-SINGALONG =     "spotify:playlist:3WcOpgXK1N9nf27qkimhPF"
-PURGELIST_ROAD =  "spotify:playlist:1MYRwRHs71GWJNk1HunSAz"
-AFTERPURGE_ROAD = "spotify:playlist:6o1Tny80Jow5ulZjesvUuy"
+PURGELIST =         "spotify:playlist:3gWBGiJmlvbVJaS0CSY2Vg"
+AFTERPURGE =        "spotify:playlist:0jjjbxOwDsTdf1Mq8hQUuS"
+OMNI =              "spotify:playlist:3PXFZxy8QdBmvFHCYyErw3"
+OMNI_REPO =         "spotify:playlist:5nWJjMM7DMOZCWYAJEgNtl"
+ROADKILL =          "spotify:playlist:6o3HI8fSJrWEeZmhkCqSeZ"
+ROADKILL_REPO =     "spotify:playlist:5ts96D5tgtlxwXSWKwGvsm"
+SINGALONG =         "spotify:playlist:3WcOpgXK1N9nf27qkimhPF"
+PURGELIST_ROAD =    "spotify:playlist:1MYRwRHs71GWJNk1HunSAz"
+AFTERPURGE_ROAD =   "spotify:playlist:6o1Tny80Jow5ulZjesvUuy"
 
+TEST_11 = "spotify:playlist:1KJW3gIz3EGTviDLDwb7xa"
+TESTLIST = "spotify:playlist:5NKYetvb0UeaSDcnjs7SB7"
 # "user-library-read " \
 # "streaming " \
 # "app-remote-control " \
