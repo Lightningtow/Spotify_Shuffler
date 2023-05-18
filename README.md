@@ -5,7 +5,8 @@ and it ends up just playing you the same 20 songs over and over again.
 
 The way around this is to shuffle the tracks themselves within the playlist, and then listen through the playlist with shuffle disabled.  
 There are websites that do this for you, but not very well. 
-Most of them get flagged by Norton as hostile phishing sites, and the rest are extremely slow. 
+
+Most of them get flagged by Norton as hostile phishing sites, and the rest are extremely slow, likely due to very inefficent API calls.
 I wrote this program due to my dissatisfaction with current methods of shuffling playlists. 
 It's open source, so feel free to poke around and play with the code.
 
@@ -64,7 +65,7 @@ And don't just take my word for it! Go have a look at the code yourself, if you 
 
 ##FAQ
 
-##### Your program didn't shuffle my playlist enough!
+##### Your program didn't shuffle my playlist in a way I like
 Take it up with the people who wrote Python's `random.shuffle()` algorithm ¯\_(ツ)_/¯   
 
 Keep in mind that due to the nature of randomness, 
