@@ -85,3 +85,7 @@ This is open source for a reason ^^
 
 [//]: # (![CMD -> settings. Under profiles -> defaults -> appearance info]&#40;images/cmd.png&#41;)
 <img src="images/cmd.png" alt="CMD -> settings. Under profiles -> defaults -> appearance info" width="700"/>
+
+
+## Please note:
+This project is still in development and not meant for public use yet. I have it public for use on my portfolio, but it is not completed. There are several functions I created for my own personal use that are still hardcoded to my account's playlists and won't work for other users. Beyond that, it's pretty much done.
