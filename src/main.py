@@ -129,7 +129,7 @@ def main():
                 shuffle_in_place(playlist)
 
         elif choice == 5:
-            playlist = choose_playlist("select playlist to copy:", only_editable=True)  # prompt user for source playlist
+            playlist = choose_playlist("select playlist to copy:", only_editable=False)  # prompt user for source playlist
             if playlist == "CANCELLED":
                 print("\ncancelled selection")
                 continue
