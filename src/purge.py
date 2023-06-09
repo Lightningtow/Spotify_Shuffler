@@ -44,6 +44,7 @@ def use_purgelist():
         # pprint(purgelist)
         print("clearing purgelist")
         wipe_tracks_by_id(tracks_to_wipe=purgelist, playlist_id=utils.PURGELIST)  # clear purgelist
+        # todo replace wipe_tracks_by_id with clearing normally, should be faster
 
     else:
         print("nothing to purge")

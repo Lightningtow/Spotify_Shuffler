@@ -102,11 +102,12 @@ def main():
                 "<4> shuffle in place\n" \
                 "<5> create new shuffled playlist\n" \
                 "<6> current test func \n" \
+                "<7> syncpurge + shuffle \n" \
  \
-        "\n<0> exit program"
+                "\n<0> exit program"
         # "<5> purge current song\n" \
 
-        choice = ask_int(query, 0, 6)
+        choice = ask_int(query, 0, 7)
         if choice == 1:
             synergize()
 
@@ -140,10 +141,24 @@ def main():
             remove_dupes(utils.TESTLIST)
             # current_func()
 
+        elif choice == 7:
+            # synergize then purge else you'll potentially screw your archive
+            print("\nSYNERGIZING \n")
+            synergize()
+
+            print("\nPURGING \n")
+            use_purgelist()
+
+            print("\nshuffling roadkill \n")
+            shuffle_in_place(utils.ROADKILL)
+
+            print("\nshuffling omniscience \n")
+            shuffle_in_place(utils.OMNI)
+
         elif choice == 0:
             sys.exit(0)
 
-        else:  # should never run, only happens if ask_int returns invali option
+        else:  # should never run, only happens if ask_int returns invalid option
             print("error occured, invalid case in main()")
             sys.exit(-1)
 

@@ -38,11 +38,15 @@ PURGELIST =         "spotify:playlist:3gWBGiJmlvbVJaS0CSY2Vg"
 AFTERPURGE =        "spotify:playlist:0jjjbxOwDsTdf1Mq8hQUuS"
 OMNI =              "spotify:playlist:3PXFZxy8QdBmvFHCYyErw3"
 OMNI_REPO =         "spotify:playlist:5nWJjMM7DMOZCWYAJEgNtl"
+OMNI_ARCHIVE =      "spotify:playlist:7pKIuF5jnS7lgB22AZGqAL"
 ROADKILL =          "spotify:playlist:6o3HI8fSJrWEeZmhkCqSeZ"
 ROADKILL_REPO =     "spotify:playlist:5ts96D5tgtlxwXSWKwGvsm"
+ROADKILL_ARCHIVE =  "spotify:playlist:0HBq6MvLLiQBY9hTFw0JVE"
 SINGALONG =         "spotify:playlist:3WcOpgXK1N9nf27qkimhPF"
 PURGELIST_ROAD =    "spotify:playlist:1MYRwRHs71GWJNk1HunSAz"
 AFTERPURGE_ROAD =   "spotify:playlist:6o1Tny80Jow5ulZjesvUuy"
+
+
 
 TEST_11 =   "spotify:playlist:1KJW3gIz3EGTviDLDwb7xa"
 TESTLIST =  "spotify:playlist:5NKYetvb0UeaSDcnjs7SB7"

@@ -10,6 +10,7 @@ from src.getters import get_diff, PlaylistGetTypes, get_name_from_playlist_uri, 
 from src.purge import use_purgelist
 from src.utils import auth
 
+
 def remove_dupes(playlist_uid="DEFAULT"):
     if playlist_uid == "DEFAULT":
         print("error: no argument passed to shuffle_new")
@@ -40,7 +41,7 @@ def remove_dupes(playlist_uid="DEFAULT"):
         elif item in readlist:
             dupes += 1
 
-            chunk = {"uri": item, "positions":[pos]}
+            chunk = {"uri": item, "positions": [pos]}
             chunklist = [chunk]
             # print(type(chunklist))
 
@@ -56,7 +57,6 @@ def remove_dupes(playlist_uid="DEFAULT"):
         biglist.append(remove_me)
     # sp.playlist_remove_specific_occurrences_of_items(playlist_uid, remove_me)
 
-
     # size = len(ids)
     # hundreds = math.ceil(size / 100) - 1  # number of times to add 100 songs
     # leftovers = size - (hundreds * 100)  # number of tracks to add for the last non-100 chunk
@@ -69,7 +69,6 @@ def remove_dupes(playlist_uid="DEFAULT"):
     #     print("wow", len(item))
     print("found", dupes, "duplicates")
     # newlist = []
-
 
     # if size > 100:
     #     print("removing " + str(size) + " items")
@@ -98,11 +97,13 @@ def remove_dupes(playlist_uid="DEFAULT"):
     # todo crashes on local tracks
     # least it works for podcasts
 
+
 def current_func():
     sp = auth()
     # fulldata = sp.devices()
     # pprint(fulldata)
     sp.pause_playback()
+
 
 # def current_func():
 #     sp = auth()
@@ -148,47 +149,57 @@ def current_func():
 # fulldata = sp.audio_features("spotify:track:5VctLR5RDyzjkaFiNrxZNd")
 #     pprint(fulldata)
 
-    # fancylist = []
-    # fulldata = sp.artist_top_tracks("spotify:artist:5fENlrINIVP0gJOtKxvORt")
-    # pprint(fulldata)
-    #
-    # print(type(fulldata))
-    # print(fulldata['tracks'][0]['name'])
-    # dic = {}
-    # spotify:track:5VctLR5RDyzjkaFiNrxZNd
-    # for i in range (10):
-    #     # dic = item
-    #     entry = fulldata['tracks'][i]['name']
-    #     fancylist.append(entry)
-    # pprint(fancylist)
+# fancylist = []
+# fulldata = sp.artist_top_tracks("spotify:artist:5fENlrINIVP0gJOtKxvORt")
+# pprint(fulldata)
+#
+# print(type(fulldata))
+# print(fulldata['tracks'][0]['name'])
+# dic = {}
+# spotify:track:5VctLR5RDyzjkaFiNrxZNd
+# for i in range (10):
+#     # dic = item
+#     entry = fulldata['tracks'][i]['name']
+#     fancylist.append(entry)
+# pprint(fancylist)
 
 def synergize():
     testlist = "spotify:playlist:5NKYetvb0UeaSDcnjs7SB7"
     # use_purgelist()
 
+    # todo --- to figure these out just see where add_tracks is going
 
     idlist = get_diff(utils.ROADKILL, "roadkill", utils.ROADKILL_REPO, "roadkill repo", PlaylistGetTypes.IDS_ONLY)
     if idlist != []:
         add_tracks(idlist, utils.ROADKILL_REPO)  # add tracks from roadkill to rkrepo
-    idlist.clear()
+        idlist.clear()
 
     idlist = get_diff(utils.ROADKILL_REPO, "roadkill repo", utils.ROADKILL, "roadkill", PlaylistGetTypes.IDS_ONLY)
     if idlist != []:
-        add_tracks(idlist, utils.ROADKILL)  # add tracks from roadkill to rkrepo
-    idlist.clear()
+        add_tracks(idlist, utils.ROADKILL)  # add tracks from rkrepo to roadkill
+        idlist.clear()
+
+    idlist = get_diff(utils.ROADKILL_REPO, "roadkill repo", utils.ROADKILL_ARCHIVE, "roadkill archive", PlaylistGetTypes.IDS_ONLY)
+    if idlist != []:
+        add_tracks(idlist, utils.ROADKILL_ARCHIVE)
+        idlist.clear()
 
     idlist = get_diff(utils.ROADKILL_REPO, "roadkill repo", utils.OMNI, "omniscience", PlaylistGetTypes.IDS_ONLY)
     if idlist != []:
         add_tracks(idlist, utils.OMNI)
-    idlist.clear()
+        idlist.clear()
 
     idlist = get_diff(utils.OMNI, "omniscience", utils.OMNI_REPO, "omniscience repo", PlaylistGetTypes.IDS_ONLY)
     if idlist != []:
         add_tracks(idlist, utils.OMNI_REPO)
-    idlist.clear()
-    # idlist = get_diff(utils.ROADKILL, "Roadkill", utils.OMNI, "Omniscience", PlaylistGetTypes.IDS_ONLY)
-    #
-    # idlist = get_diff(utils.ROADKILL, "Roadkill", utils.OMNI, "Omniscience", PlaylistGetTypes.IDS_ONLY)
+        idlist.clear()
 
-    # add_tracks(idlist, testlist)
+    idlist = get_diff(utils.OMNI_REPO, "omniscience repo", utils.OMNI_ARCHIVE, "omniscience archive", PlaylistGetTypes.IDS_ONLY)
+    if idlist != []:
+        add_tracks(idlist, utils.OMNI_ARCHIVE)
+        idlist.clear()
+# idlist = get_diff(utils.ROADKILL, "Roadkill", utils.OMNI, "Omniscience", PlaylistGetTypes.IDS_ONLY)
+#
+# idlist = get_diff(utils.ROADKILL, "Roadkill", utils.OMNI, "Omniscience", PlaylistGetTypes.IDS_ONLY)
 
+# add_tracks(idlist, testlist)
