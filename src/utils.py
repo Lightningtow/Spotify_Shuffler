@@ -1,7 +1,6 @@
 # from data import AUTH
 
 
-
 def ask_int(query, low, high):
     while True:
         choice = input(query + "\n\n> ")
@@ -16,19 +15,19 @@ def ask_int(query, low, high):
 
 # SCOPES = ""
 SCOPES = "playlist-modify-private " \
-         "playlist-modify-public " \
-         "ugc-image-upload " \
-         "playlist-read-private " \
-         "playlist-read-collaborative " \
-            "user-library-read " \
-            "streaming " \
-            "app-remote-control " \
-    "user-read-playback-state " \
-    "user-modify-playback-state " \
-    "user-read-currently-playing " \
-"user-read-playback-position " \
-"user-top-read " \
-"user-read-recently-played " \
+        "playlist-modify-public " \
+        "ugc-image-upload " \
+        "playlist-read-private " \
+        "playlist-read-collaborative " \
+        "user-library-read " \
+        "streaming " \
+        "app-remote-control " \
+        "user-read-playback-state " \
+        "user-modify-playback-state " \
+        "user-read-currently-playing " \
+        "user-read-playback-position " \
+        "user-top-read " \
+        "user-read-recently-played " \
 
 
 
@@ -60,14 +59,17 @@ TESTLIST =  "spotify:playlist:5NKYetvb0UeaSDcnjs7SB7"
 
 def auth():
 
-    # this automatically does all the fixing creds shit within it. So you can freely call auth() without worrying
+    # you can freely call auth() without worrying
     import spotipy
     from spotipy import SpotifyOAuth
     # from data import SCOPES
-    import dotenv
+    import dotenv  # package named 'python-dotenv'
     import os
+    from dotenv import load_dotenv
+
     # from data import SCOPES
-    dotenv.load_dotenv()
+    # dotenvy.environ
+    load_dotenv()
 
     try:
         sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=SCOPES, open_browser=True))

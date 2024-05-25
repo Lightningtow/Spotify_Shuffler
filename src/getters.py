@@ -13,6 +13,14 @@ import os
 # from data import SCOPES, PlaylistGetTypes
 from utils import auth
 
+def get_queue():
+    sp = auth()
+    queuelist = sp.queue()
+    # for item in queuelist:
+        # item['track']['uri']
+    pprint(queuelist)
+    print(len(queuelist['queue']))
+
 def get_diff(uri_1, name1, uri_2, name2, return_type):
     # take list1, and for each song, if it's in list2, remove it from the list.
     # so you end up with a list of all songs from list1 that aren't in list2
@@ -39,11 +47,11 @@ def get_diff(uri_1, name1, uri_2, name2, return_type):
         inboth = False
         for item2 in list2:
             # print
-            if item['track']['uri'] == item2['track']['uri']:
+            if item['track']['uri'] == item2['track']['uri']:  # todo why did this crash
                 # print("removing", item['track']['artists'][0]['name']   + " - " + item['track']['name']  + " - " + item['track']['album']['name'])
         # if item['track']['uri'] in list2:
                 inboth = True
-                break;
+                break
                 # try:
                 #     list1.remove(item)
                 # except ValueError:

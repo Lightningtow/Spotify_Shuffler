@@ -6,7 +6,7 @@ import spotipy
 
 from src import utils
 from src.edit_playlists import add_tracks
-from src.getters import get_diff, PlaylistGetTypes, get_name_from_playlist_uri, get_tracks
+from src.getters import get_diff, PlaylistGetTypes, get_name_from_playlist_uri, get_tracks, get_queue
 from src.purge import use_purgelist
 from src.utils import auth
 
@@ -102,8 +102,9 @@ def current_func():
     sp = auth()
     # fulldata = sp.devices()
     # pprint(fulldata)
-    sp.pause_playback()
-
+    # sp.pause_playback()
+    # get_queue()
+    sp.start_playback(device_id=None, context_uri="spotify:track:2xZlBSmWu87B5Os7eQL7LL")
 
 # def current_func():
 #     sp = auth()
@@ -164,6 +165,8 @@ def current_func():
 # pprint(fancylist)
 
 def synergize():
+    # yes I'm aware this is a pretty inefficient way of doing things and that ideally it doesn't need to get each playlist twice.
+    # however it works well enough, and I'm putting effort into improving Gridline instead.
     testlist = "spotify:playlist:5NKYetvb0UeaSDcnjs7SB7"
     # use_purgelist()
 

@@ -3,7 +3,7 @@ from __future__ import print_function
 import logging
 import threading
 
-from urllib3.connectionpool import xrange
+# from urllib3.connectionpool import xrange
 
 # from data import AUTH
 
@@ -138,8 +138,8 @@ def main():
                 shuffle_new(playlist)
 
         elif choice == 6:
-            remove_dupes(utils.TESTLIST)
-            # current_func()
+            # remove_dupes(utils.TESTLIST)
+            current_func()
 
         elif choice == 7:
             # synergize then purge else you'll potentially screw your archive
