@@ -5,13 +5,14 @@ from utils import auth
 
 
 def wipe_tracks_by_id(tracks_to_wipe, playlist_id):
+    # remove tracks from a playlist, by id
     # ids are the tracks to wipe
     sp = auth()
 
     ids = tracks_to_wipe
     size = len(ids)
-    hundreds = math.ceil(size / 100) - 1  # number of times to add 100 songs
-    leftovers = size - (hundreds * 100)  # number of tracks to add for the last non-100 chunk
+    hundreds = math.ceil(size / 100) - 1  # number of times to remove 100 songs
+    leftovers = size - (hundreds * 100)  # number of tracks to remove for the last non-100 chunk
 
     sp = auth()
 

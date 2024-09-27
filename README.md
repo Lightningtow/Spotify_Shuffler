@@ -10,6 +10,9 @@ Most of them get flagged by Norton as hostile phishing sites, and the rest are e
 I wrote this program due to my dissatisfaction with current methods of shuffling playlists. 
 It's open source, so feel free to poke around and play with the code.
 
+Note: this will remove and re-add all of your playlist songs. This means that you will no longer be able to see the original order of the songs.  
+This doesn't have any practical downsides, but may be unwanted for nostaliga, 
+to see how your long-running playlist has grown and changed over time.
 
 ## Setup:
 1) First off, you'll need to register yourself as a Spotify developer and create an app. Don't worry, it sounds harder than it actually is. 
@@ -63,7 +66,7 @@ Used to provide the playlists for you to select and shuffle.
 
 And don't just take my word for it! Go have a look at the code yourself, if you want.
 
-##FAQ
+## FAQ
 
 ##### Your program didn't shuffle my playlist in a way I like
 Take it up with the people who wrote Python's `random.shuffle()` algorithm ¯\_(ツ)_/¯   
@@ -74,18 +77,7 @@ from their shuffle play algorithm being completely random. They got fed up with 
 their tracks "weren't random enough" because they were getting several related songs in a row. 
 Unfortunately, their algorithm doesn't work very well.
 
-If you think you can do it better than me, go for it! Submit a pull request, open an issue, and I'll take a look. 
-This is open source for a reason ^^
 
 [//]: # (##### I'm stuck on `authenticating in browser...`)
 
 [//]: # (That's because you have an invalid)
-
-##### How can I change the font size/appearance?
-
-[//]: # (![CMD -> settings. Under profiles -> defaults -> appearance info]&#40;images/cmd.png&#41;)
-<img src="images/cmd.png" alt="CMD -> settings. Under profiles -> defaults -> appearance info" width="700"/>
-
-
-## Please note:
-This project is still in development and not meant for public use yet. I have it public for use on my portfolio, but it is not completed. There are several functions I created for my own personal use that are still hardcoded to my account's playlists and won't work for other users. Beyond that, it's pretty much done.

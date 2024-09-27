@@ -25,8 +25,12 @@ from src.synergize import synergize, current_func, remove_dupes
 
 # MyApp.run(self=MyApp)
 
-def main():
 
+# just make a big global array for each playlist
+# will need to manually and remove entries after syncing/purging.
+
+def main():
+    # package named 'python-dotenv'
     def is_connected():
         import socket
         try:
@@ -53,7 +57,7 @@ def main():
         print("successfully pinged Spotify")
     else:
         print("can't connect to Spotify")
-        print("please try again with an internet connection")
+        print("please try again later. Double check your firewall or something")
         input("press Return to exit")
         sys.exit(-1)
 
@@ -68,7 +72,6 @@ def main():
     print("authenticating...")  # can't put this in auth(), or it'd be printed all over the place
     # print("see README if you get stuck here")
     sp = auth()
-    # input("aaaaaa")
     # print("authorizing in browser...")  # todo some tests here!!!!!
     print("")
     from shuffle import shuffle_in_place, shuffle_new
@@ -122,20 +125,21 @@ def main():
             shuffle_in_place(utils.OMNI)
 
         elif choice == 4:
-            playlist = choose_playlist("select playlist to shuffle:", only_editable=True)  # prompt user for source playlist
-            if playlist == "CANCELLED":
+            playlist_uri = choose_playlist("select playlist to shuffle:", only_editable=True)  # prompt user for source playlist
+            if playlist_uri == "CANCELLED":
                 print("\ncancelled selection")
                 continue
             else:
-                shuffle_in_place(playlist)
+                print("now shuffling " + get_name_from_playlist_uri(playlist_uri))
+                shuffle_in_place(playlist_uri)
 
         elif choice == 5:
-            playlist = choose_playlist("select playlist to copy:", only_editable=False)  # prompt user for source playlist
-            if playlist == "CANCELLED":
+            playlist_uri = choose_playlist("select playlist to copy:", only_editable=False)  # prompt user for source playlist
+            if playlist_uri == "CANCELLED":
                 print("\ncancelled selection")
                 continue
             else:
-                shuffle_new(playlist)
+                shuffle_new(playlist_uri)
 
         elif choice == 6:
             # remove_dupes(utils.TESTLIST)
@@ -159,8 +163,7 @@ def main():
             sys.exit(0)
 
         else:  # should never run, only happens if ask_int returns invalid option
-            print("error occured, invalid case in main()")
-            sys.exit(-1)
+            print("error occurred, invalid case in main()")
 
 if __name__ == '__main__':
     # MyApp().run()

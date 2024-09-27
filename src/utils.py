@@ -127,5 +127,5 @@ def auth():
         dotenv.set_key(f, "SPOTIPY_REDIRECT_URI", os.environ["SPOTIPY_REDIRECT_URI"])
 
 
-        return auth()  # try it again :D
+        return auth()  # run it again with your brand new credentials
     return spotipy.Spotify(auth_manager=SpotifyOAuth(scope=SCOPES))

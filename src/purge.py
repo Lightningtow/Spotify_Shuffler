@@ -1,11 +1,11 @@
 from pprint import pprint
 
 from src import utils
-from src.edit_playlists import add_tracks, wipe_tracks_by_id
+from edit_playlists import add_tracks, wipe_tracks_by_id
 from utils import auth
 from getters import get_all_playlists_from_user, get_tracks, PlaylistGetTypes
 
-
+# this is just my custom run thing
 def use_purgelist():
     sp = utils.auth()
 
@@ -27,22 +27,24 @@ def use_purgelist():
         print("purging", purge_len, "songs:")
         pprint(purgenames)
 
-        print("purging Omniscience")
-        sp.playlist_remove_all_occurrences_of_items(utils.OMNI, purgelist)
+        print("purging Omniscience")  # you cannot directly call 'sp.playlist_remove_all_occurrences_of_items' because it will crash if purging more than 100 tracks
+        wipe_tracks_by_id(tracks_to_wipe=purgelist, playlist_id=utils.OMNI)
+        #sp.playlist_remove_all_occurrences_of_items(utils.OMNI, purgelist)
 
         print("purging Omniscience Repo")
-        sp.playlist_remove_all_occurrences_of_items(utils.OMNI_REPO, purgelist)
+        wipe_tracks_by_id(tracks_to_wipe=purgelist, playlist_id=utils.OMNI_REPO)
 
         print("purging Roadkill")
-        sp.playlist_remove_all_occurrences_of_items(utils.ROADKILL, purgelist)
+        wipe_tracks_by_id(tracks_to_wipe=purgelist, playlist_id=utils.ROADKILL)
 
         print("purging Roadkill Repo")
-        sp.playlist_remove_all_occurrences_of_items(utils.ROADKILL_REPO, purgelist)
+        wipe_tracks_by_id(tracks_to_wipe=purgelist, playlist_id=utils.ROADKILL_REPO)
 
         print("adding to afterpurge")
         add_tracks(ids=purgelist, destination=utils.AFTERPURGE)  # add to afterpurge
         # pprint(purgelist)
         print("clearing purgelist")
+        sp.playlist_replace_items(utils.PURGELIST, [])
         wipe_tracks_by_id(tracks_to_wipe=purgelist, playlist_id=utils.PURGELIST)  # clear purgelist
         # todo replace wipe_tracks_by_id with clearing normally, should be faster
 
@@ -70,16 +72,16 @@ def use_purgelist():
         pprint(purgenames)
 
         print("purging Roadkill")
-        sp.playlist_remove_all_occurrences_of_items(utils.ROADKILL, purgelist)
+        wipe_tracks_by_id(tracks_to_wipe=purgelist, playlist_id=utils.ROADKILL)
 
         print("purging Roadkill Repo")
-        sp.playlist_remove_all_occurrences_of_items(utils.ROADKILL_REPO, purgelist)
+        wipe_tracks_by_id(tracks_to_wipe=purgelist, playlist_id=utils.ROADKILL_REPO)
 
         print("adding to afterpurge road edition")
         add_tracks(ids=purgelist, destination=utils.AFTERPURGE_ROAD)  # add to afterpurge
         # pprint(purgelist)
         print("clearing purgelist")
-        wipe_tracks_by_id(tracks_to_wipe=purgelist, playlist_id=utils.PURGELIST_ROAD)  # clear purgelist
+        sp.playlist_replace_items(utils.PURGELIST, [])  # clear purgelist
 
     else:
         print("nothing to purge")
